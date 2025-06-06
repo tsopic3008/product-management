@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
+    volumes:
+      - mssql_data:/var/opt/mssql
+    networks:
+      - quarkus-net
+    healthcheck:
+      test: [ "CMD-SHELL", "sqlcmd -S localhost -U sa -P \"$SA_PASSWORD\" -Q 'SELECT 1'" ]
+      interval: 10s
+      retries: 10
+      start_period: 20s
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.1
+    container_name: keycloak
+    ports:
+      - "8080:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    depends_on:
+      - mssql
+    command:
+      - start
+      - --optimized
+      - --db-url-host=mssql
+      - --db-url-port=1433
+      - --db-url-database=keycloak
+      - --db-url-properties=encrypt=true
+      - --db-username=sa
+      - --db-password=${MSSQL_SA_PASSWORD}
+      - --hostname-url=http://localhost:8080
+      - --hostname-strict=false
+      - --http-enabled=true
+      - --spi-connections-jpa-migration-strategy=validate
+    networks:
+      - quarkus-net
+
+
+
+networks:
+  quarkus-net:
+
+volumes:
+  mssql_data:
