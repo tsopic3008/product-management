@@ -1,7 +1,6 @@
 package com.tscore.endpoint;
 
 import com.tscore.UserDTO;
-import com.tscore.model.User;
 import com.tscore.service.UserService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -21,6 +20,5 @@ public class UserEndpoint {
     public Response registerUser(UserDTO user) {
         userService.registerUser(user);
         return Response.ok().build();
-
     }
 }
