@@ -16,6 +16,7 @@ public class Product {
     public String name;
     public String description;
     public BigDecimal price;
+    public String image_url;
 
     @ManyToOne
     public Category category;

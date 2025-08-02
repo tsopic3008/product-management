@@ -26,7 +26,8 @@ public class ProductResource {
                         p.name,
                         p.description,
                         p.price,
-                        p.category.name
+                        p.category.name,
+                        p.image_url
                 ))
                 .collect(Collectors.toList());
     }
