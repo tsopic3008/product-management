@@ -1,6 +1,7 @@
--- This file allow to write SQL commands that will be emitted in test and dev.
--- The commands are commented as their support depends of the database
--- insert into myentity (id, field) values(1, 'field-1');
--- insert into myentity (id, field) values(2, 'field-2');
--- insert into myentity (id, field) values(3, 'field-3');
--- alter sequence myentity_seq restart with 4;
+-- Dev / test seed data (loaded when hibernate-orm.database.generation = drop-and-create)
+INSERT INTO category (id, name) VALUES (1, 'Electronics');
+INSERT INTO category (id, name) VALUES (2, 'Books');
+
+INSERT INTO product (id, name, description, price, image_url, category_id) VALUES (1, 'Laptop Pro', '15-inch laptop with M3 chip', 1499.99, 'https://example.com/laptop.jpg', 1);
+INSERT INTO product (id, name, description, price, image_url, category_id) VALUES (2, 'Wireless Mouse', 'Ergonomic wireless mouse', 29.99, 'https://example.com/mouse.jpg', 1);
+INSERT INTO product (id, name, description, price, image_url, category_id) VALUES (3, 'Clean Code', 'A handbook of agile software craftsmanship', 35.00, 'https://example.com/cleancode.jpg', 2);
